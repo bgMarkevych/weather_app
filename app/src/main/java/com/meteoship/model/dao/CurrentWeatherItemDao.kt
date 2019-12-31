@@ -10,7 +10,7 @@ import io.reactivex.Observable
 @Dao
 interface CurrentWeatherItemDao {
     @Query("SELECT * FROM currentweatheritem")
-    fun getCurrent():CurrentWeatherItem
+    fun getCurrent(): CurrentWeatherItem?
 
     @Insert
     fun insert(weather: CurrentWeatherItem)

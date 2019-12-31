@@ -21,7 +21,7 @@ enum class SheepIcon(val degrees: Array<Int>, val drawableId: Int) {
             }
             if (item == null) {
                 values().forEach {
-                    item = if (SH_MINUS_5.degrees[0] <= temp) {
+                    item = if (SH_MINUS_5.degrees[0] >= temp) {
                         SH_MINUS_5
                     } else {
                         SH_30

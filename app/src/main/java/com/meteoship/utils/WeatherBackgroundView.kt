@@ -41,7 +41,6 @@ class WeatherBackgroundView : View {
     private fun init(attributes: AttributeSet?) {
         if (attributes == null) {
             color = ContextCompat.getColor(context, R.color.sunny)
-            sheepBitmap = getBitmapFromVectorDrawable(R.drawable.ic_splash_logo)
             return
         }
         val typedArray =
@@ -54,13 +53,12 @@ class WeatherBackgroundView : View {
             sheepBitmap = getBitmapFromVectorDrawable(
                 typedArray.getResourceId(
                     R.styleable.WeatherBackgroundView_sheepDrawable,
-                    R.drawable.ic_splash_logo
+                    0
                 )
             )
         } catch (e: Exception) {
             e.printStackTrace()
             color = ContextCompat.getColor(context, R.color.sunny)
-            sheepBitmap = getBitmapFromVectorDrawable(R.drawable.ic_splash_logo)
         }
         typedArray.recycle()
         padding = context.resources.getDimension(R.dimen.padding)
@@ -77,12 +75,14 @@ class WeatherBackgroundView : View {
             ovalHeight.toFloat(),
             ovalPaint
         )
-        canvas?.drawBitmap(
-            sheepBitmap!!,
-            width - sheepBitmap!!.width - padding,
-            (height - ovalHeight - sheepBitmap!!.height / 2).toFloat(),
-            null
-        )
+        if (sheepBitmap != null) {
+            canvas?.drawBitmap(
+                sheepBitmap!!,
+                width - sheepBitmap!!.width - padding,
+                (height - ovalHeight - sheepBitmap!!.height / 2).toFloat(),
+                null
+            )
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -90,7 +90,10 @@ class WeatherBackgroundView : View {
         ovalHeight = MeasureSpec.getSize(heightMeasureSpec) * OVAL_HEIGHT_PERCENT / 100
     }
 
-    private fun getBitmapFromVectorDrawable(drawableId: Int): Bitmap {
+    private fun getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
+        if (drawableId == 0){
+            return null
+        }
         var drawable = ContextCompat.getDrawable(context, drawableId)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             drawable = DrawableCompat.wrap(drawable!!).mutate()
@@ -107,7 +110,7 @@ class WeatherBackgroundView : View {
         return bitmap
     }
 
-    fun setImageResource(res: Int){
+    fun setImageResource(res: Int) {
         sheepBitmap = getBitmapFromVectorDrawable(res)
         invalidate()
     }

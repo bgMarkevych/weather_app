@@ -11,7 +11,7 @@ import com.meteoship.model.data.DailyWeatherItem
 
 @Database(
     entities = [CurrentWeatherItem::class, HourlyWeatherItem::class, DailyWeatherItem::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class Database : RoomDatabase() {

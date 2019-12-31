@@ -9,13 +9,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
-import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
 import androidx.transition.TransitionManager
-import com.google.android.gms.maps.model.LatLng
 
 import com.meteoship.R
 import com.meteoship.app.activity.maps.LAT_KEY
@@ -24,13 +20,14 @@ import com.meteoship.app.activity.maps.MapsActivity
 import com.meteoship.app.fragment.forecast_info.ForecastInfoFragment
 import com.meteoship.app.fragment.hourly_forecast.HourlyForecastFragment
 import com.meteoship.base.BaseFragment
-import com.meteoship.model.container.CurrentWeatherContainer
 import com.meteoship.model.data.CurrentWeatherItem
 import com.meteoship.model.data.SheepIcon
 import com.meteoship.model.data.WeatherState
 import com.meteoship.utils.DefaultViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_weather.*
 import java.util.*
+import com.meteoship.utils.changeStatusBarColor
+
 
 const val MAPS_REQUEST_CODE = 12
 
@@ -87,14 +84,24 @@ class CurrentWeatherFragment : BaseFragment(),
             0
         )
         temp.text = "${weatherContainer.temp!!.toInt()}°"
-        weather_background.color = ContextCompat.getColor(context!!, weatherState.weatherColor)
+        val backgroundColor = if (weatherState == WeatherState.SUNNY) {
+            if (weatherContainer.isNight()) {
+                R.color.night
+            } else {
+                R.color.sunny
+            }
+        } else {
+            weatherState.weatherColor
+        }
+        weather_background.color = ContextCompat.getColor(context!!, backgroundColor)
         weather_background.setImageResource(SheepIcon.getIconByTemp(weatherContainer.temp!!.toInt()))
         view_pager.adapter =
             DefaultViewPagerAdapter(
                 listOf(ForecastInfoFragment(), HourlyForecastFragment()),
                 childFragmentManager
             )
-        pager_indicator.selectedColor = ContextCompat.getColor(context!!, weatherState.weatherColor)
+        pager_indicator.selectedColor = ContextCompat.getColor(context!!, backgroundColor)
+        changeStatusBarColor(activity!!, backgroundColor)
     }
 
     override fun showLoading() {

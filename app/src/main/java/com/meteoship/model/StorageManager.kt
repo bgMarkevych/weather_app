@@ -23,7 +23,15 @@ class StorageManager(
         database.dailyWeatherDao().insert(forecast)
     }
 
-    fun getCurrentWeather(): CurrentWeatherItem {
+    fun getDailyWeatherForecast(): List<DailyWeatherItem> {
+        return database.dailyWeatherDao().getAll()
+    }
+
+    fun getSingleDailyWeatherForecast(date: String): DailyWeatherItem {
+        return database.dailyWeatherDao().get(date)
+    }
+
+    fun getCurrentWeather(): CurrentWeatherItem? {
         return database.currentWeatherDao().getCurrent()
     }
 
@@ -43,5 +51,21 @@ class StorageManager(
         database.currentWeatherDao().clearTable()
         database.dailyWeatherDao().clearTable()
         database.hourlyWeatherDao().clearTable()
+    }
+
+    fun storeCurrentTimeZone(timezone: String?) {
+        preferencesHelper.storeCurrentTimeZone(timezone)
+    }
+
+    fun storeCurrentCityName(cityName: String?) {
+        preferencesHelper.storeCurrentCityName(cityName)
+    }
+
+    fun getCurrentTimeZone(): String? {
+        return preferencesHelper.getCurrentTimeZone()
+    }
+
+    fun getCurrentCityName(): String? {
+        return preferencesHelper.getCurrentCityName()
     }
 }

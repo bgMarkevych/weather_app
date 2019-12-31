@@ -11,12 +11,15 @@ import io.reactivex.Observable
 @Dao
 interface DailyWeatherItemDao {
     @Query("SELECT * FROM dailyweatheritem")
-    fun getAll(): Observable<List<DailyWeatherItem>>
+    fun getAll(): List<DailyWeatherItem>
 
     @Insert
     fun insert(weather: List<DailyWeatherItem>)
 
     @Query("DELETE FROM dailyweatheritem")
     fun clearTable()
+
+    @Query("SELECT * FROM dailyweatheritem WHERE validDate LIKE :date LIMIT 1")
+    fun get(date: String): DailyWeatherItem
 
 }

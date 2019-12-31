@@ -33,6 +33,8 @@ class Model(private val apiInterface: ApiInterface, private val storageManager: 
             .doOnNext { storageManager.clearCurrentWeatherData() }
             .map { it.data!![0] }
             .doOnNext { storageManager.storeCurrentCoordinates(it.lat!!, it.lon!!) }
+            .doOnNext { storageManager.storeCurrentTimeZone(it.timezone) }
+            .doOnNext { storageManager.storeCurrentCityName(it.cityName) }
             .doOnNext { storageManager.saveCurrentWeather(it) }
             .flatMap {
                 loadHourlyForecast(
@@ -51,7 +53,7 @@ class Model(private val apiInterface: ApiInterface, private val storageManager: 
         return Observable.fromCallable {
             val calendar = Calendar.getInstance()
             calendar.timeZone =
-                TimeZone.getTimeZone(storageManager.getCurrentWeather().timezone)
+                TimeZone.getTimeZone(storageManager.getCurrentWeather()!!.timezone)
             return@fromCallable HOURS - calendar.get(Calendar.HOUR_OF_DAY)
         }
             .flatMap {
@@ -90,13 +92,21 @@ class Model(private val apiInterface: ApiInterface, private val storageManager: 
     }
 
     fun getCurrentWeather(): Observable<CurrentWeatherItem> {
-        return Observable.fromCallable {  storageManager.getCurrentWeather()}
+        return Observable.fromCallable { storageManager.getCurrentWeather()!! }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun isCurrentWeatherNull(): Observable<Boolean> {
+        return Observable.fromCallable {
+            storageManager.getCurrentWeather() == null
+        }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getCurrentForecastInfo(): Observable<ArrayList<ForecastInfoDataItem>> {
-        return Observable.fromCallable {  storageManager.getCurrentWeather()}
+        return Observable.fromCallable { storageManager.getCurrentWeather() }
             .map { item ->
                 val forecastInfo = ArrayList<ForecastInfoDataItem>()
                 forecastInfo.add(
@@ -173,12 +183,30 @@ class Model(private val apiInterface: ApiInterface, private val storageManager: 
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getCurrentCoordinates(): Pair<Float, Float> {
-        return storageManager.getCurrentCoordinates()
-    }
-
     fun getCurrentCoordinatesObservable(): Observable<Pair<Float, Float>> {
         return Observable.just(storageManager.getCurrentCoordinates())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getDailyForecast(): Observable<DailyWeatherContainer> {
+        return Observable.fromCallable { storageManager.getDailyWeatherForecast() }
+            .map {
+                val dates = ArrayList<String>()
+                it.forEach {
+                    dates.add(it.validDate!!)
+                }
+                DailyWeatherContainer(
+                    storageManager.getCurrentCityName()!!,
+                    dates
+                )
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getSingleDailyForecast(date: String): Observable<DailyWeatherItem> {
+        return Observable.fromCallable { storageManager.getSingleDailyWeatherForecast(date) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

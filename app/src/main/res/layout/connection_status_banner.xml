@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/connection_status"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/connection_status_banner_height"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:textColor="#fff"
+    android:textSize="12sp"
+    tools:background="@color/connection_success_banner_background"
+    tools:text="Connected">
+
+</TextView>

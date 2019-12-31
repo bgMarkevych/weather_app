@@ -10,6 +10,10 @@ import com.google.gson.annotations.SerializedName
 @Entity
 class DailyWeatherItem {
 
+    companion object{
+        val DATE_FORMAT = "yyyy-MM-dd"
+    }
+
     @SerializedName("moonrise_ts")
     @Expose
     var moonriseTs: Int? = null //Moonrise time unix timestamp (UTC).
@@ -163,5 +167,6 @@ class DailyWeatherItem {
 
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null
+
 
 }

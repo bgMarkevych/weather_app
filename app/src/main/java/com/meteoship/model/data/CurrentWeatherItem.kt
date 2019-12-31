@@ -81,7 +81,7 @@ class CurrentWeatherItem {
     var dewpt: Double? = null //Dew point (default Celcius).
     @SerializedName("snow")
     @Expose
-    var snow: Int? = null //Snowfall (default mm/hr).
+    var snow: Double? = null //Snowfall (default mm/hr).
     @SerializedName("uv")
     @Expose
     var uv: Double? = null //UV Index (0-11+).
