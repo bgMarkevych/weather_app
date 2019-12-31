@@ -78,9 +78,14 @@ class DailyWeatherFragment : BaseFragment(), DailyWeatherView {
             0
         )
         temp.text = "${forecast.temp!!.toInt()}°"
-        weather_background.color = ContextCompat.getColor(context!!, weatherState.weatherColor)
+        weather_background.setColorBackground(
+            ContextCompat.getColor(
+                context!!,
+                weatherState.weatherColor
+            )
+        )
         weather_background.setImageResource(SheepIcon.getIconByTemp(forecast.temp!!.toInt()))
-        changeStatusBarColor(activity!!, weatherState.weatherColor)
+//        changeStatusBarColor(activity!!, weatherState.weatherColor)
 
         forecast_info_list.adapter = ForecastInfoAdapter(buildForestInfoList(forecast))
         forecast_info_list.layoutManager = GridLayoutManager(context!!, 2)

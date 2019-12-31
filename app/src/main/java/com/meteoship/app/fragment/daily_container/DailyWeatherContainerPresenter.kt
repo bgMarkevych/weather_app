@@ -22,4 +22,17 @@ class DailyWeatherContainerPresenter : BasePresenter<DailyWeatherContainerView>(
         compositeDisposable.add(disposable)
     }
 
+    fun loadNewForecast(
+        latitude: Double,
+        longitude: Double
+    ) {
+        val disposable = model.loadCurrentForecast(latitude, longitude)
+            .flatMap { model.getDailyForecast() }
+            .doOnSubscribe { view?.showLoading() }
+            .doFinally { view?.dismissLoading() }
+            .flatMap { model.getDailyForecast() }
+            .subscribe({ view?.showData(it) }, this::processError)
+        compositeDisposable.add(disposable)
+    }
+
 }

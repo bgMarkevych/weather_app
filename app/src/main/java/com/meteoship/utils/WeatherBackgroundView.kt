@@ -10,9 +10,14 @@ import java.lang.Exception
 import android.graphics.Bitmap
 import androidx.core.graphics.drawable.DrawableCompat
 import android.os.Build
+import android.animation.ValueAnimator
+import androidx.core.animation.addListener
+import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 
 
 const val OVAL_HEIGHT_PERCENT = 70
+const val COLOR_PREF_NAME = "COLOR_PREF_NAME"
+const val COLOR_PREF_KEY = "COLOR_PREF_KEY"
 
 class WeatherBackgroundView : View {
     constructor(context: Context) : this(context, null) {
@@ -41,6 +46,7 @@ class WeatherBackgroundView : View {
     private fun init(attributes: AttributeSet?) {
         if (attributes == null) {
             color = ContextCompat.getColor(context, R.color.sunny)
+            saveColor(color)
             return
         }
         val typedArray =
@@ -50,6 +56,11 @@ class WeatherBackgroundView : View {
                 R.styleable.WeatherBackgroundView_backgroundColor,
                 ContextCompat.getColor(context, R.color.sunny)
             )
+            if (getSavedColor() == 0) {
+                saveColor(color)
+            } else {
+                color = getSavedColor()
+            }
             sheepBitmap = getBitmapFromVectorDrawable(
                 typedArray.getResourceId(
                     R.styleable.WeatherBackgroundView_sheepDrawable,
@@ -59,6 +70,7 @@ class WeatherBackgroundView : View {
         } catch (e: Exception) {
             e.printStackTrace()
             color = ContextCompat.getColor(context, R.color.sunny)
+            saveColor(color)
         }
         typedArray.recycle()
         padding = context.resources.getDimension(R.dimen.padding)
@@ -91,7 +103,7 @@ class WeatherBackgroundView : View {
     }
 
     private fun getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
-        if (drawableId == 0){
+        if (drawableId == 0) {
             return null
         }
         var drawable = ContextCompat.getDrawable(context, drawableId)
@@ -113,6 +125,27 @@ class WeatherBackgroundView : View {
     fun setImageResource(res: Int) {
         sheepBitmap = getBitmapFromVectorDrawable(res)
         invalidate()
+    }
+
+    fun setColorBackground(color: Int) {
+        val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), this.color, color)
+        colorAnimation.duration = 500 // milliseconds
+        colorAnimation.addUpdateListener { animator ->
+            this.color = (animator.animatedValue as Int)
+            invalidate()
+        }
+        colorAnimation.addListener(onEnd = { saveColor(color) })
+        colorAnimation.start()
+    }
+
+    private fun saveColor(color: Int) {
+        val preferences = context.getSharedPreferences(COLOR_PREF_NAME, Context.MODE_PRIVATE)
+        preferences.edit().putInt(COLOR_PREF_KEY, color).apply()
+    }
+
+    private fun getSavedColor(): Int {
+        val preferences = context.getSharedPreferences(COLOR_PREF_NAME, Context.MODE_PRIVATE)
+        return preferences.getInt(COLOR_PREF_KEY, 0)
     }
 
 }

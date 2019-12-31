@@ -30,7 +30,7 @@ enum class WeatherState(val ids: Array<String>, val drawableId: Int, val weather
             values().forEach { weather ->
                 weather.ids.forEach {
                     if (it == id) {
-                        weather
+                        return weather
                     }
                 }
             }
