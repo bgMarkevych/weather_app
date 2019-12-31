@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WeatherDateView">
+        <attr name="day" format="string" />
+        <attr name="month" format="string" />
+        <attr name="year" format="string" />
+        <attr name="color" format="color" />
+        <attr name="dayTextSize" format="dimension" />
+        <attr name="monthTextSize" format="dimension" />
+        <attr name="yearTextSize" format="dimension" />
+    </declare-styleable>
+</resources>

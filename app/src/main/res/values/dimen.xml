@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding">24dp</dimen>
+    <dimen name="padding_date_view_text">8dp</dimen>
+    <dimen name="default_text_size">14sp</dimen>
+    <dimen name="default_text_day_size">52sp</dimen>
+    <dimen name="default_text_month_size">20sp</dimen>
+    <dimen name="default_text_year_size">26sp</dimen>
+</resources>

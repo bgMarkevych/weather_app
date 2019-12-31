@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/current_weather"
+        android:icon="@drawable/ic_current_date"
+        android:title="@string/current_date" />
+    <item
+        android:id="@+id/range_weather"
+        android:icon="@drawable/ic_range_date"
+        android:title="@string/range_date" />
+    <item
+        android:id="@+id/prediction"
+        android:icon="@drawable/ic_experiment"
+        android:title="@string/prediction" />
+</menu>

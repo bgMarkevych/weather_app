@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">MeteoShip</string>
+    <string name="app_name">Meteoship</string>
+    <string name="api_key">29e38f51bd5b45409ff15c7edad58c31</string>
+    <string name="current_date">Current date</string>
+    <string name="range_date">5 days forecast</string>
+    <string name="prediction">Predict</string>
+    <string name="details">Details</string>
+    <string name="temperature_max">Temperature max:</string>
+    <string name="temperature_min">Temperature min:</string>
+    <string name="temperature_feels_like">Feels like:</string>
+    <string name="pressure">Pressure:</string>
+    <string name="wind_speed">Wind speed:</string>
+    <string name="relative_humidity">Relative humidity:</string>
+    <string name="connection_lost_dialog_message">Sorry, but your conection is lost, check network and try again</string>
+    <string name="ooooops">Ooooops</string>
+    <string name="ok">ok</string>
 </resources>
