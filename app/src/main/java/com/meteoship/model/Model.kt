@@ -4,6 +4,9 @@ import com.meteoship.R
 import com.meteoship.WeatherApp
 import com.meteoship.model.data.*
 import com.meteoship.model.response.DailyWeatherResponse
+import com.meteoship.neural_network.algorithm.Zambretti
+import com.meteoship.neural_network.algorithm.ZambrettiImpl
+import com.meteoship.neural_network.data.Neuron
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -15,7 +18,11 @@ import kotlin.collections.ArrayList
 const val DAYS_TO_LOAD = 5
 const val HOURS = 24
 
-class Model(private val apiInterface: ApiInterface, private val storageManager: StorageManager) {
+class Model(
+    private val apiInterface: ApiInterface,
+    private val storageManager: StorageManager,
+    private val neuralNetwork: Zambretti
+) {
 
     private fun getApiKey(): String {
         return WeatherApp.context.getString(R.string.api_key)
@@ -207,6 +214,12 @@ class Model(private val apiInterface: ApiInterface, private val storageManager: 
 
     fun getSingleDailyForecast(date: String): Observable<DailyWeatherItem> {
         return Observable.fromCallable { storageManager.getSingleDailyWeatherForecast(date) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun predictWeather(neuron: Neuron): Observable<String> {
+        return Observable.fromCallable { neuralNetwork.doTask(neuron) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

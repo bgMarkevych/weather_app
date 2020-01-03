@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.meteoship">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".WeatherApp"
@@ -22,10 +22,17 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCOcFEliEgoxJg2Az6UH29mH3lFUoqgf5c"/>
-        <activity android:name="com.meteoship.app.activity.main.MainActivity"></activity>
-        <activity android:name="com.meteoship.app.activity.maps.MapsActivity"></activity>
-        <activity android:name="com.meteoship.app.activity.splash.SplashActivity">
+            android:value="AIzaSyCOcFEliEgoxJg2Az6UH29mH3lFUoqgf5c" />
+
+        <activity
+            android:name="com.meteoship.app.activity.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.meteoship.app.activity.maps.MapsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.meteoship.app.activity.splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

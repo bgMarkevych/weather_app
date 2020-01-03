@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager
 import com.meteoship.R
 import com.meteoship.app.fragment.current_weather.CurrentWeatherFragment
 import com.meteoship.app.fragment.daily_container.DailyWeatherContainerFragment
+import com.meteoship.app.fragment.prediction.PredictionFragment
 import com.meteoship.base.BaseActivity
 import com.meteoship.base.BaseFragment
 import com.meteoship.utils.DefaultViewPagerAdapter
@@ -27,7 +28,8 @@ class MainActivity : BaseActivity() {
         view_pager.adapter = DefaultViewPagerAdapter(
             listOf(
                 CurrentWeatherFragment(),
-                DailyWeatherContainerFragment()
+                DailyWeatherContainerFragment(),
+                PredictionFragment()
             ),
             supportFragmentManager
         )
@@ -45,7 +47,7 @@ class MainActivity : BaseActivity() {
 
             override fun onPageSelected(position: Int) {
                 bottom_menu.selectedItemId =
-                    if (position == 0) R.id.current_weather else R.id.range_weather
+                    if (position == 0) R.id.current_weather else if (position == 1) R.id.range_weather else R.id.prediction
             }
 
         })
@@ -55,7 +57,7 @@ class MainActivity : BaseActivity() {
         when (item.itemId) {
             R.id.current_weather -> view_pager.setCurrentItem(0, true)
             R.id.range_weather -> view_pager.setCurrentItem(1, true)
-//            R.id.prediction -> initFragment()
+            R.id.prediction -> view_pager.setCurrentItem(2, true)
         }
     }
 

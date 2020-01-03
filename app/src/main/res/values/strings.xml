@@ -17,4 +17,20 @@
     <string name="connection_status_success">Connected</string>
     <string name="connection_status_lost">Connection is lost</string>
     <string name="select">Select</string>
+    <string name="environment">Environment</string>
+    <string name="hemisphere">Hemisphere:</string>
+    <string name="north">North</string>
+    <string name="local_pressure_weather_range_mb">Local Pressure \'Weather Range\' (mb) :</string>
+    <string name="low">Low:</string>
+    <string name="high">High:</string>
+    <string name="current_variables">Current Variables</string>
+    <string name="wind_conditions">Wind conditions:</string>
+    <string name="month">Month:</string>
+    <string name="baro">Baro</string>
+    <string name="relative_sea_level_adjusted">Relative / Sea Level Adjusted:</string>
+    <string name="current_pressure">Current pressure:</string>
+    <string name="trend">Trend:</string>
+    <string name="_12_hour_forecast">12 Hour Forecast:</string>
+    <string name="start">Start</string>
+    <string name="south">South</string>
 </resources>

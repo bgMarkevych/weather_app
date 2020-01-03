@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyRadioButtonStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/custom_btn_radio</item>
+        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:paddingStart">8dp</item>
+    </style>
+
 </resources>
